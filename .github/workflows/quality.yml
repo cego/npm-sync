@@ -15,7 +15,7 @@ jobs:
           path: "node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
       - run: npm install
-      - run: npm run eslint
+      - run: npx eslint .
 
   code-ql:
     name: CodeQL
