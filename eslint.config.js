@@ -1,19 +1,34 @@
 "use strict";
-const eslintConfigESLintBase = require("eslint-config-eslint/base");
-const eslintConfigESLintCJS = require("eslint-config-eslint/cjs");
-const eslintConfigESLintFormatting = require("eslint-config-eslint/formatting");
+const config = require("eslint-config-eslint/cjs");
+const formatting = require("eslint-config-eslint/formatting");
+const jest = require("eslint-plugin-jest");
+const globals = require("globals");
 
 module.exports = [
-    ...eslintConfigESLintBase,
-    ...eslintConfigESLintCJS,
-    eslintConfigESLintFormatting,
+    ...config,
+    formatting,
+    {
+        plugins: { jest },
+        rules: {
+            ...jest.configs.recommended.rules,
+        },
+        languageOptions: {
+            globals: {
+                ...globals.jest,
+            },
+        },
+    },
+    {
+        ignores: ["coverage/"],
+    },
     {
         rules: {
+            "jsdoc/require-param-description": ["off"],
             "comma-dangle": ["error", "always-multiline"],
             "no-console": ["off"],
             "n/no-process-exit": ["off"],
             "n/no-unpublished-require": ["error", {
-                allowModules: ["eslint-config-eslint"],
+                allowModules: ["eslint-config-eslint", "globals", "eslint-plugin-jest"],
             }],
         },
     },
