@@ -1,2 +1,5 @@
-# npm-sync
-An application that syncs files from one npm project to another
+# Usage
+```sh
+npm install -g @cego/npm-sync
+npm-sync ~/work/some-package ~/work/some-application-project 
+```
