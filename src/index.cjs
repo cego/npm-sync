@@ -49,6 +49,7 @@ function goSync() {
 }
 
 let syncTimeoutId = -1;
+
 c.on("add", path => {
     clearTimeout(syncTimeoutId);
     syncTimeoutId = setTimeout(goSync, 500);
