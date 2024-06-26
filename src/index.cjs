@@ -20,7 +20,7 @@ if (!fs.existsSync(`${target}/package.json`)) {
 const sourcePackageJsonData = JSON.parse(fs.readFileSync(`${source}/package.json`, "utf-8"));
 const sourceName = sourcePackageJsonData.name;
 const sourceFiles = sourcePackageJsonData.files;
-const c = chokidar.watch(`${source}/dist/**/*`);
+const c = chokidar.watch(`${source}/**/*`);
 
 /**
  * Start rsync subprocess
@@ -49,7 +49,6 @@ function goSync() {
 }
 
 let syncTimeoutId = -1;
-
 c.on("add", path => {
     clearTimeout(syncTimeoutId);
     syncTimeoutId = setTimeout(goSync, 500);
@@ -60,5 +59,3 @@ c.on("change", path => {
     syncTimeoutId = setTimeout(goSync, 500);
     console.log("file changed", path);
 });
-
-// c.on('add', goBananas).on('change', goBananas)
