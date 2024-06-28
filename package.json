@@ -1,6 +1,6 @@
 {
   "name": "@cego/npm-sync",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An application that syncs files from one npm project to another",
   "main": "src/index.js",
   "bin": "src/index.js",
