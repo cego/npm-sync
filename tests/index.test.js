@@ -40,13 +40,27 @@ test("it rsync's", () => {
 });
 
 
-test("hook smoketest", async () => {
+test("hook (success)", async () => {
 
     // Execute
     await hook(`${sourcePath}`, "echo \"tralala\" > text.txt");
 
     // Assert
     expect(fs.existsSync(`${sourcePath}/text.txt`)).toBe(true);
+});
+
+test("hook (failure)", async () => {
+
+    // Execute
+    /**
+     * @returns {void}
+     */
+    async function t() {
+        await hook(`${sourcePath}`, "echinvalid");
+    }
+
+    // Assert
+    await expect(t).rejects.toThrow("Command failed: echinvalid");
 });
 
 test("it watches files and invokes notifyCallback", async () => {
