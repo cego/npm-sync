@@ -31,7 +31,7 @@ function rsync(sourcePackageFiles, sourcePath, sourcePackageName, targetPath) {
     if (res.stderr.toString() !== "") {
         console.log(`${res.stderr}`);
     }
-    console.log(`Sync performed in ${Date.now() - now}ms`);
+    console.log(`Rsync performed in ${Date.now() - now}ms`);
 }
 
 module.exports = { rsync };

@@ -25,6 +25,7 @@ module.exports = [
         rules: {
             "jsdoc/require-param-description": ["off"],
             "jsdoc/require-returns-description": ["off"],
+            "jsdoc/require-description": ["off"],
             "comma-dangle": ["error", "always-multiline"],
             "no-console": ["off"],
             "n/no-process-exit": ["off"],

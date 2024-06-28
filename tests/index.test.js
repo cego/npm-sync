@@ -2,6 +2,8 @@
 
 const fs = require("node:fs");
 const { rsync } = require("../src/rsync");
+const { startWatcher } = require("../src/watcher");
+const waitForExpect = require("wait-for-expect");
 
 let log;
 const sourcePath = "/tmp/npm-sync-test-source";
@@ -33,5 +35,27 @@ test("it rsync's", () => {
     // Assert
     expect(fs.existsSync(`${targetPath}/node_modules/@tester/somepackage/package.json`)).toBe(true);
     expect(fs.existsSync(`${targetPath}/node_modules/@tester/somepackage/somescript.js`)).toBe(true);
-    expect(log).toHaveBeenCalledWith(expect.stringMatching(/Sync performed in \d+ms/u));
+    expect(log).toHaveBeenCalledWith(expect.stringMatching(/Rsync performed in \d+ms/u));
+});
+
+
+test("it watches files and invokes notifyCallback", async () => {
+
+    // Setup
+    fs.writeFileSync(`${sourcePath}/somescript.js`, "");
+    const sourcePackageFiles = ["files"];
+
+    // Execute
+    const notifyCallback = jest.fn();
+    const w = startWatcher(sourcePath, sourcePackageFiles, notifyCallback);
+
+    fs.appendFileSync(`${sourcePath}/somescript.js`, "Tralala");
+
+    // Assert
+    await waitForExpect(() => {
+        expect(notifyCallback).toHaveBeenNthCalledWith(1);
+    });
+
+    // Cleanup
+    await w.close();
 });
