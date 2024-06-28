@@ -34,8 +34,8 @@ async function handler(args) {
 }
 
 /**
- * @param {Argv} yargs
- * @returns {Argv}
+ * @param {yargs.Argv} yargs
+ * @returns {yargs.Argv}
  */
 function builder(yargs) {
     yargs.positional("sourcePath", {

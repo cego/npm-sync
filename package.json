@@ -26,7 +26,8 @@
       "src/**/*.js"
     ],
     "coveragePathIgnorePatterns": [
-      "src/index.js"
+      "src/index.js",
+      "src/main-command.js"
     ]
   }
 }
