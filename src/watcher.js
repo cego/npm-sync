@@ -44,11 +44,6 @@ function startWatcher(sourcePath, sourcePackageFiles, notifyCallback) {
         console.log(`${path} was added`);
     });
     c.on("change", path => {
-        if (!ready) {
-            watchingCount++;
-            return;
-        }
-
         clearTimeout(syncTimeoutId);
         syncTimeoutId = setTimeout(timerCallback, 150);
         console.log(`${path} has changed`);

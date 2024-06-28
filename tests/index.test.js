@@ -1,9 +1,10 @@
 "use strict";
 
 const fs = require("node:fs");
+const timers = require("node:timers/promises");
+const waitForExpect = require("wait-for-expect");
 const { rsync } = require("../src/rsync");
 const { startWatcher } = require("../src/watcher");
-const waitForExpect = require("wait-for-expect");
 const { hook } = require("../src/hook");
 
 let log;
@@ -39,8 +40,7 @@ test("it rsync's", () => {
     expect(log).toHaveBeenCalledWith(expect.stringMatching(/Rsync performed in \d+ms/u));
 });
 
-
-test("hook (success)", async () => {
+test("it executes hook that succeeds", async () => {
 
     // Execute
     await hook(`${sourcePath}`, "echo \"tralala\" > text.txt");
@@ -49,7 +49,7 @@ test("hook (success)", async () => {
     expect(fs.existsSync(`${sourcePath}/text.txt`)).toBe(true);
 });
 
-test("hook (failure)", async () => {
+test("it executes hook that fails", async () => {
 
     // Execute
     /**
@@ -67,19 +67,30 @@ test("it watches files and invokes notifyCallback", async () => {
 
     // Setup
     fs.writeFileSync(`${sourcePath}/somescript.js`, "");
-    const sourcePackageFiles = ["files"];
+    const sourcePackageFiles = ["dist"];
 
     // Execute
     const notifyCallback = jest.fn();
+    const readyCallback = jest.fn();
+
     const w = startWatcher(sourcePath, sourcePackageFiles, notifyCallback);
 
-    fs.appendFileSync(`${sourcePath}/somescript.js`, "Tralala");
+    w.on("ready", readyCallback);
 
     // Assert
     await waitForExpect(() => {
-        expect(notifyCallback).toHaveBeenNthCalledWith(1);
+        expect(readyCallback).toHaveBeenCalledTimes(1);
     });
+
+    // Change file
+    fs.appendFileSync(`${sourcePath}/somescript.js`, "Tralala");
+    fs.writeFileSync(`${sourcePath}/freshfile.txt`, "Tralala");
+
+    // Assert
+    await waitForExpect(() => {
+        expect(notifyCallback).toHaveBeenCalledTimes(2);
+    }, 30000);
 
     // Cleanup
     await w.close();
-});
+}, 30000);
