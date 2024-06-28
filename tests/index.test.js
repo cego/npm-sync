@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const { rsync } = require("../src/rsync");
 const { startWatcher } = require("../src/watcher");
 const waitForExpect = require("wait-for-expect");
+const { hook } = require("../src/hook");
 
 let log;
 const sourcePath = "/tmp/npm-sync-test-source";
@@ -38,6 +39,15 @@ test("it rsync's", () => {
     expect(log).toHaveBeenCalledWith(expect.stringMatching(/Rsync performed in \d+ms/u));
 });
 
+
+test("hook smoketest", async () => {
+
+    // Execute
+    await hook(`${sourcePath}`, "echo \"tralala\" > text.txt");
+
+    // Assert
+    expect(fs.existsSync(`${sourcePath}/text.txt`)).toBe(true);
+});
 
 test("it watches files and invokes notifyCallback", async () => {
 

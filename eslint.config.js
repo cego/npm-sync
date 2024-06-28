@@ -30,7 +30,7 @@ module.exports = [
             "no-console": ["off"],
             "n/no-process-exit": ["off"],
             "n/no-unpublished-require": ["error", {
-                allowModules: ["eslint-config-eslint", "globals", "eslint-plugin-jest"],
+                allowModules: ["eslint-config-eslint", "globals", "eslint-plugin-jest", "wait-for-expect"],
             }],
         },
     },
