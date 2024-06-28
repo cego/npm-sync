@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require("node:fs");
-const timers = require("node:timers/promises");
 const waitForExpect = require("wait-for-expect");
 const { rsync } = require("../src/rsync");
 const { startWatcher } = require("../src/watcher");
