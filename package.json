@@ -3,8 +3,10 @@
   "version": "1.0.4",
   "description": "An application that syncs files from one npm project to another",
   "main": "src/index.js",
-  "bin": "src/index.js",
-  "author": "madsjon@gmail.com",
+  "bin": {
+    "npm-sync": "src/index.js"
+  },
+  "author": "Mads Jon Nielsen <madsjon@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "chokidar": "^3.6.0",
@@ -13,6 +15,14 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cego/npm-sync.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cego/gitte/issues"
+  },
+  "homepage": "https://github.com/cego/gitte#readme",
   "devDependencies": {
     "eslint": "^9.5.0",
     "eslint-config-eslint": "^11.0.0",
